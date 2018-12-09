@@ -189,18 +189,11 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
     userSignInCredentials: UserSignInCredentials,
   ) => async function (dispatch: Dispatch<{}>): Promise<void> {
     dispatch(signInRequestSent())
-    const {
-      email,
-      password,
-    } = userSignInCredentials
     try {
       const response = await axios({
         method: 'POST',
         url: `${authUrl}/sign_in`,
-        data: {
-          email,
-          password,
-        },
+        data: userSignInCredentials,
       })
       setAuthHeaders(response.headers)
       persistAuthHeadersInDeviceStorage(Storage, response.headers)
