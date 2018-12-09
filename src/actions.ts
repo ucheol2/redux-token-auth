@@ -38,6 +38,7 @@ import {
   SignOutRequestSucceededAction,
   SignOutRequestFailedAction,
   SetHasVerificationBeenAttemptedAction,
+  AuthHeaders,
 } from './types'
 import AsyncLocalStorage from './AsyncLocalStorage'
 import {
@@ -240,12 +241,42 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
     }
   }
 
+  const axiauth = async ({headers = {}, ...options}): Promise<any> => {
+    const tokenHeaders: AuthHeaders = {
+      'access-token': await Storage.getItem('access-token') as string,
+      'token-type': await Storage.getItem('token-type') as string,
+      client: await Storage.getItem('client') as string,
+      expiry: await Storage.getItem('expiry') as string,
+      uid: await Storage.getItem('uid') as string,
+    }
+    try {
+      const response = await axios({
+        headers: {
+          ...tokenHeaders,
+          ...headers,
+        },
+        ...options,
+      })
+      setAuthHeaders(response.headers)
+      persistAuthHeadersInDeviceStorage(Storage, response.headers)
+      return response
+    } catch (error) {
+      console.warn(error, error.response);
+      if (!!error.response && error.response.status !== 401) {
+        setAuthHeaders(error.response.headers)
+        persistAuthHeadersInDeviceStorage(Storage, error.response.headers)
+      }
+      throw error
+    }
+  }
+
   return {
     registerUser,
     verifyToken,
     signInUser,
     signOutUser,
     verifyCredentials,
+    axiauth,
   }
 }
 

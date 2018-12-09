@@ -37,50 +37,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = require("axios");
-var utility_1 = require("./utility");
-var authHeaderKeys = [
-    'access-token',
-    'token-type',
-    'client',
-    'expiry',
-    'uid',
-];
-exports.setAuthHeaders = function (headers) {
-    authHeaderKeys.forEach(function (key) {
-        if (headers[key]) {
-            axios_1.default.defaults.headers.common[key] = headers[key];
-        }
-    });
-};
-exports.persistAuthHeadersInDeviceStorage = function (Storage, headers) {
-    authHeaderKeys.forEach(function (key) {
-        if (headers[key]) {
-            Storage.setItem(key, headers[key]);
-        }
-    });
-};
-exports.deleteAuthHeaders = function () {
-    authHeaderKeys.forEach(function (key) {
-        delete axios_1.default.defaults.headers.common[key];
-    });
-};
-exports.deleteAuthHeadersFromDeviceStorage = function (Storage) { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        authHeaderKeys.forEach(function (key) {
-            Storage.removeItem(key);
+var axiauth = function (_a) {
+    var options = _a.options;
+    return __awaiter(_this, void 0, void 0, function () {
+        var tokenHeaders, _b, _c, _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    _b = {};
+                    _c = 'access-token';
+                    return [4 /*yield*/, Storage.getItem('access-token')];
+                case 1:
+                    _b[_c] = (_e.sent());
+                    _d = 'token-type';
+                    return [4 /*yield*/, Storage.getItem('token-type')];
+                case 2:
+                    _b[_d] = (_e.sent());
+                    return [4 /*yield*/, Storage.getItem('client')];
+                case 3:
+                    _b.client = (_e.sent());
+                    return [4 /*yield*/, Storage.getItem('expiry')];
+                case 4:
+                    _b.expiry = (_e.sent());
+                    return [4 /*yield*/, Storage.getItem('uid')];
+                case 5:
+                    tokenHeaders = (_b.uid = (_e.sent()),
+                        _b);
+                    return [2 /*return*/, axios_1.default({})];
+            }
         });
-        return [2 /*return*/];
     });
-}); };
-exports.getUserAttributesFromResponse = function (userAttributes, response) {
-    var invertedUserAttributes = utility_1.invertMapKeysAndValues(userAttributes);
-    var userAttributesBackendKeys = Object.keys(invertedUserAttributes);
-    var userAttributesToReturn = {};
-    Object.keys(response.data.data).forEach(function (key) {
-        if (userAttributesBackendKeys.indexOf(key) !== -1) {
-            userAttributesToReturn[invertedUserAttributes[key]] = response.data.data[key];
-        }
-    });
-    return userAttributesToReturn;
 };
-//# sourceMappingURL=auth.js.map
+//# sourceMappingURL=axiauth.js.map

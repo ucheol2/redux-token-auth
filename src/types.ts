@@ -189,6 +189,7 @@ export interface ActionsExport {
   readonly signInUser: ReduxAsyncAction
   readonly signOutUser: ReduxAsyncAction
   readonly verifyCredentials: VerifyCredentialsFunction
+  readonly axiauth: (input?: any) => Promise<any>
 }
 
 export type ActionsGeneratorExport = (config: { [key: string]: any }) => ActionsExport
