@@ -17,8 +17,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true
   },
-  "files": [
-    "src/index.ts"
+  "include": [
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",
@@ -27,7 +27,8 @@
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts"
+    "src/setupTests.ts",
+    "src/**/*.test.ts"
   ],
   "types": [
     "typePatches"

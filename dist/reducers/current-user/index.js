@@ -32,8 +32,8 @@ var currentUser = function (state, action) {
         case types_1.SIGNOUT_REQUEST_SUCCEEDED:
             var userAttributeKeys = Object.keys(state.attributes);
             var allNullUserAttributes = userAttributeKeys.reduce(function (accumulatedNullUserAttributes, currentUserAttributeKey) {
-                return __assign({}, accumulatedNullUserAttributes, (_a = {}, _a[currentUserAttributeKey] = null, _a));
                 var _a;
+                return __assign({}, accumulatedNullUserAttributes, (_a = {}, _a[currentUserAttributeKey] = null, _a));
             }, {});
             return __assign({}, state, { attributes: allNullUserAttributes, isLoading: false, isSignedIn: false });
         case types_1.SIGNOUT_REQUEST_FAILED:
