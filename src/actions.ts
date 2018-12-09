@@ -125,7 +125,7 @@ export const setHasVerificationBeenAttempted = (
 const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
   const {
     authUrl,
-    storage,
+    storage = {},
     userAttributes,
     userRegistrationAttributes,
   } = config
