@@ -188,6 +188,9 @@ export interface ActionsExport {
   readonly verifyToken: ReduxAsyncAction
   readonly signInUser: ReduxAsyncAction
   readonly signOutUser: ReduxAsyncAction
+  readonly updateUser: ReduxAsyncAction
+  readonly registerUserForm: ReduxAsyncAction
+  readonly updateUserForm: ReduxAsyncAction
   readonly verifyCredentials: VerifyCredentialsFunction
   readonly axiauth: (input?: any) => Promise<any>
 }

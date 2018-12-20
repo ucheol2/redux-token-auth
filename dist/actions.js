@@ -119,14 +119,13 @@ var generateAuthActions = function (config) {
     var Storage = Boolean(storage) ? storage : AsyncLocalStorage_1.default;
     var registerUser = function (userRegistrationDetails) { return function (dispatch) {
         return __awaiter(this, void 0, void 0, function () {
-            var email, password, passwordConfirmation, data, response, userAttributesToSave, error_1;
+            var password, passwordConfirmation, data, response, userAttributesToSave, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         dispatch(exports.registrationRequestSent());
-                        email = userRegistrationDetails.email, password = userRegistrationDetails.password, passwordConfirmation = userRegistrationDetails.passwordConfirmation;
+                        password = userRegistrationDetails.password, passwordConfirmation = userRegistrationDetails.passwordConfirmation;
                         data = {
-                            email: email,
                             password: password,
                             password_confirmation: passwordConfirmation,
                         };
@@ -158,9 +157,117 @@ var generateAuthActions = function (config) {
             });
         });
     }; };
+    var updateUser = function (userUpdateDetails) { return function (dispatch) {
+        return __awaiter(this, void 0, void 0, function () {
+            var password, passwordConfirmation, data, response, userAttributesToSave, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        dispatch(exports.registrationRequestSent());
+                        password = userUpdateDetails.password, passwordConfirmation = userUpdateDetails.passwordConfirmation;
+                        data = {
+                            password: password,
+                            password_confirmation: passwordConfirmation,
+                        };
+                        Object.keys(userRegistrationAttributes).forEach(function (key) {
+                            var backendKey = userRegistrationAttributes[key];
+                            data[backendKey] = userUpdateDetails[key];
+                        });
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, axios_1.default({
+                                method: 'PUT',
+                                url: authUrl,
+                                data: data,
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        auth_1.setAuthHeaders(response.headers);
+                        auth_1.persistAuthHeadersInDeviceStorage(Storage, response.headers);
+                        userAttributesToSave = auth_1.getUserAttributesFromResponse(userAttributes, response);
+                        dispatch(exports.registrationRequestSucceeded(userAttributesToSave));
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_2 = _a.sent();
+                        dispatch(exports.registrationRequestFailed());
+                        throw error_2;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    }; };
+    var registerUserForm = function (data) { return function (dispatch) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, userAttributesToSave, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        dispatch(exports.registrationRequestSent());
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, axios_1.default({
+                                method: 'POST',
+                                url: authUrl,
+                                data: data,
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                },
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        auth_1.setAuthHeaders(response.headers);
+                        auth_1.persistAuthHeadersInDeviceStorage(Storage, response.headers);
+                        userAttributesToSave = auth_1.getUserAttributesFromResponse(userAttributes, response);
+                        dispatch(exports.registrationRequestSucceeded(userAttributesToSave));
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_3 = _a.sent();
+                        dispatch(exports.registrationRequestFailed());
+                        throw error_3;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    }; };
+    var updateUserForm = function (data) { return function (dispatch) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, userAttributesToSave, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        dispatch(exports.registrationRequestSent());
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, axios_1.default({
+                                method: 'PUT',
+                                url: authUrl,
+                                data: data,
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                },
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        auth_1.setAuthHeaders(response.headers);
+                        auth_1.persistAuthHeadersInDeviceStorage(Storage, response.headers);
+                        userAttributesToSave = auth_1.getUserAttributesFromResponse(userAttributes, response);
+                        dispatch(exports.registrationRequestSucceeded(userAttributesToSave));
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_4 = _a.sent();
+                        dispatch(exports.registrationRequestFailed());
+                        throw error_4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    }; };
     var verifyToken = function (verificationParams) { return function (dispatch) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, userAttributesToSave, error_2;
+            var response, userAttributesToSave, error_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -181,7 +288,7 @@ var generateAuthActions = function (config) {
                         dispatch(exports.verifyTokenRequestSucceeded(userAttributesToSave));
                         return [3 /*break*/, 4];
                     case 3:
-                        error_2 = _a.sent();
+                        error_5 = _a.sent();
                         dispatch(exports.verifyTokenRequestFailed());
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
@@ -191,7 +298,7 @@ var generateAuthActions = function (config) {
     }; };
     var signInUser = function (userSignInCredentials) { return function (dispatch) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, userAttributesToSave, error_3;
+            var response, userAttributesToSave, error_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -212,9 +319,9 @@ var generateAuthActions = function (config) {
                         dispatch(exports.signInRequestSucceeded(userAttributesToSave));
                         return [3 /*break*/, 4];
                     case 3:
-                        error_3 = _a.sent();
+                        error_6 = _a.sent();
                         dispatch(exports.signInRequestFailed());
-                        throw error_3;
+                        throw error_6;
                     case 4: return [2 /*return*/];
                 }
             });
@@ -222,7 +329,7 @@ var generateAuthActions = function (config) {
     }; };
     var signOutUser = function () { return function (dispatch) {
         return __awaiter(this, void 0, void 0, function () {
-            var userSignOutCredentials, _a, _b, error_4;
+            var userSignOutCredentials, _a, _b, error_7;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -254,9 +361,9 @@ var generateAuthActions = function (config) {
                         dispatch(exports.signOutRequestSucceeded());
                         return [3 /*break*/, 7];
                     case 6:
-                        error_4 = _c.sent();
+                        error_7 = _c.sent();
                         dispatch(exports.signOutRequestFailed());
-                        throw error_4;
+                        throw error_7;
                     case 7: return [2 /*return*/];
                 }
             });
@@ -291,7 +398,7 @@ var generateAuthActions = function (config) {
         });
     }); };
     var axiauth = function (_a) { return __awaiter(_this, void 0, void 0, function () {
-        var tokenHeaders, _b, _c, _d, response, error_5;
+        var tokenHeaders, _b, _c, _d, response, error_8;
         var _e = _a.headers, headers = _e === void 0 ? {} : _e, options = __rest(_a, ["headers"]);
         return __generator(this, function (_f) {
             switch (_f.label) {
@@ -325,19 +432,22 @@ var generateAuthActions = function (config) {
                     auth_1.persistAuthHeadersInDeviceStorage(Storage, response.headers);
                     return [2 /*return*/, response];
                 case 8:
-                    error_5 = _f.sent();
-                    console.warn(error_5, error_5.response);
-                    if (!!error_5.response && error_5.response.status !== 401) {
-                        auth_1.setAuthHeaders(error_5.response.headers);
-                        auth_1.persistAuthHeadersInDeviceStorage(Storage, error_5.response.headers);
+                    error_8 = _f.sent();
+                    console.warn(error_8, error_8.response);
+                    if (!!error_8.response && error_8.response.status !== 401) {
+                        auth_1.setAuthHeaders(error_8.response.headers);
+                        auth_1.persistAuthHeadersInDeviceStorage(Storage, error_8.response.headers);
                     }
-                    throw error_5;
+                    throw error_8;
                 case 9: return [2 /*return*/];
             }
         });
     }); };
     return {
         registerUser: registerUser,
+        updateUser: updateUser,
+        registerUserForm: registerUserForm,
+        updateUserForm: updateUserForm,
         verifyToken: verifyToken,
         signInUser: signInUser,
         signOutUser: signOutUser,

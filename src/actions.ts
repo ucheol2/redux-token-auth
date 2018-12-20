@@ -138,12 +138,10 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
   ) => async function (dispatch: Dispatch<{}>): Promise<void> {
     dispatch(registrationRequestSent())
     const {
-      email,
       password,
       passwordConfirmation,
     } = userRegistrationDetails
     const data = {
-      email,
       password,
       password_confirmation: passwordConfirmation,
     }
@@ -156,6 +154,80 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
         method: 'POST',
         url: authUrl,
         data,
+      })
+      setAuthHeaders(response.headers)
+      persistAuthHeadersInDeviceStorage(Storage, response.headers)
+      const userAttributesToSave = getUserAttributesFromResponse(userAttributes, response)
+      dispatch(registrationRequestSucceeded(userAttributesToSave))
+    } catch (error) {
+      dispatch(registrationRequestFailed())
+      throw error
+    }
+  }
+
+  const updateUser = (
+    userUpdateDetails: UserRegistrationDetails,
+  ) => async function (dispatch: Dispatch<{}>): Promise<void> {
+    dispatch(registrationRequestSent())
+    const {
+      password,
+      passwordConfirmation,
+    } = userUpdateDetails
+    const data = {
+      password,
+      password_confirmation: passwordConfirmation,
+    }
+    Object.keys(userRegistrationAttributes).forEach((key: string) => {
+      const backendKey = userRegistrationAttributes[key]
+      data[backendKey] = userUpdateDetails[key]
+    })
+    try {
+      const response: AuthResponse = await axios({
+        method: 'PUT',
+        url: authUrl,
+        data,
+      })
+      setAuthHeaders(response.headers)
+      persistAuthHeadersInDeviceStorage(Storage, response.headers)
+      const userAttributesToSave = getUserAttributesFromResponse(userAttributes, response)
+      dispatch(registrationRequestSucceeded(userAttributesToSave))
+    } catch (error) {
+      dispatch(registrationRequestFailed())
+      throw error
+    }
+  }
+  
+  const registerUserForm = ( data: any ) => async function (dispatch: Dispatch<{}>): Promise<void> {
+    dispatch(registrationRequestSent())
+    try {
+      const response: AuthResponse = await axios({
+        method: 'POST',
+        url: authUrl,
+        data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      setAuthHeaders(response.headers)
+      persistAuthHeadersInDeviceStorage(Storage, response.headers)
+      const userAttributesToSave = getUserAttributesFromResponse(userAttributes, response)
+      dispatch(registrationRequestSucceeded(userAttributesToSave))
+    } catch (error) {
+      dispatch(registrationRequestFailed())
+      throw error
+    }
+  }
+
+  const updateUserForm = (data: any) => async function (dispatch: Dispatch<{}>): Promise<void> {
+    dispatch(registrationRequestSent())
+    try {
+      const response: AuthResponse = await axios({
+        method: 'PUT',
+        url: authUrl,
+        data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       })
       setAuthHeaders(response.headers)
       persistAuthHeadersInDeviceStorage(Storage, response.headers)
@@ -272,6 +344,9 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
 
   return {
     registerUser,
+    updateUser,
+    registerUserForm,
+    updateUserForm,
     verifyToken,
     signInUser,
     signOutUser,
