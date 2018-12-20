@@ -375,7 +375,7 @@ var generateAuthActions = function (config) {
             switch (_c.label) {
                 case 0: return [4 /*yield*/, Storage.getItem('access-token')];
                 case 1:
-                    if (!_c.sent()) return [3 /*break*/, 5];
+                    if (!_c.sent()) return [3 /*break*/, 6];
                     _a = {};
                     _b = 'access-token';
                     return [4 /*yield*/, Storage.getItem('access-token')];
@@ -388,12 +388,14 @@ var generateAuthActions = function (config) {
                 case 4:
                     verificationParams = (_a.uid = (_c.sent()),
                         _a);
-                    store.dispatch(verifyToken(verificationParams));
-                    return [3 /*break*/, 6];
+                    return [4 /*yield*/, store.dispatch(verifyToken(verificationParams))];
                 case 5:
+                    _c.sent();
+                    return [3 /*break*/, 7];
+                case 6:
                     store.dispatch(exports.setHasVerificationBeenAttempted(true));
-                    _c.label = 6;
-                case 6: return [2 /*return*/];
+                    _c.label = 7;
+                case 7: return [2 /*return*/];
             }
         });
     }); };

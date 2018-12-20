@@ -307,7 +307,7 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
         client: await Storage.getItem('client') as string,
         uid: await Storage.getItem('uid') as string,
       }
-      store.dispatch<any>(verifyToken(verificationParams))
+      await store.dispatch<any>(verifyToken(verificationParams))
     } else {
       store.dispatch(setHasVerificationBeenAttempted(true))
     }
