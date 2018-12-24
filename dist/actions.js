@@ -111,6 +111,12 @@ exports.setHasVerificationBeenAttempted = function (hasVerificationBeenAttempted
         hasVerificationBeenAttempted: hasVerificationBeenAttempted,
     },
 }); };
+exports.setAttributesSent = function (attributes) { return ({
+    type: types_1.SET_ATTRIBUTES,
+    payload: {
+        attributes: attributes,
+    },
+}); };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Async Redux Thunk actions:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -445,6 +451,9 @@ var generateAuthActions = function (config) {
             }
         });
     }); };
+    var setAttributes = function (attributes) { return function (dispatch) {
+        dispatch(exports.setAttributesSent(attributes));
+    }; };
     return {
         registerUser: registerUser,
         updateUser: updateUser,
@@ -455,6 +464,7 @@ var generateAuthActions = function (config) {
         signOutUser: signOutUser,
         verifyCredentials: verifyCredentials,
         axiauth: axiauth,
+        setAttributes: setAttributes,
     };
 };
 exports.default = generateAuthActions;

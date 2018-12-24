@@ -40,6 +40,8 @@ var currentUser = function (state, action) {
             return __assign({}, state, { isLoading: false });
         case types_1.SET_HAS_VERIFICATION_BEEN_ATTEMPTED:
             return __assign({}, state, { hasVerificationBeenAttempted: action.payload.hasVerificationBeenAttempted });
+        case types_1.SET_ATTRIBUTES:
+            return __assign({}, state, { attributes: __assign({}, state.attributes, action.payload.attributes) });
         default:
             return state;
     }

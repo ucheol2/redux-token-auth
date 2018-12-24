@@ -13,4 +13,5 @@ exports.SIGNOUT_REQUEST_SENT = 'redux-token-auth/SIGNOUT_REQUEST_SENT';
 exports.SIGNOUT_REQUEST_SUCCEEDED = 'redux-token-auth/SIGNOUT_REQUEST_SUCCEEDED';
 exports.SIGNOUT_REQUEST_FAILED = 'redux-token-auth/SIGNOUT_REQUEST_FAILED';
 exports.SET_HAS_VERIFICATION_BEEN_ATTEMPTED = 'redux-token-auth/SET_HAS_VERIFICATION_BEEN_ATTEMPTED';
+exports.SET_ATTRIBUTES = 'redux-token-auth/SET_ATTRIBUTES';
 //# sourceMappingURL=types.js.map

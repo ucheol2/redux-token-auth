@@ -15,6 +15,7 @@ import {
   SIGNOUT_REQUEST_SUCCEEDED,
   SIGNOUT_REQUEST_FAILED,
   SET_HAS_VERIFICATION_BEEN_ATTEMPTED,
+  SET_ATTRIBUTES,
 } from '../../types'
 import initialState from '../../initial-state'
 
@@ -88,6 +89,14 @@ const currentUser = (state: User = initialUser, action: ReduxAction): User => {
       return {
         ...state,
         hasVerificationBeenAttempted: action.payload.hasVerificationBeenAttempted,
+      }
+    case SET_ATTRIBUTES:
+      return {
+        ...state,
+        attributes: {
+          ...state.attributes,
+          ...action.payload.attributes,
+        }
       }
     default:
       return state

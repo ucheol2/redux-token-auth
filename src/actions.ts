@@ -25,6 +25,7 @@ import {
   SIGNOUT_REQUEST_SUCCEEDED,
   SIGNOUT_REQUEST_FAILED,
   SET_HAS_VERIFICATION_BEEN_ATTEMPTED,
+  SET_ATTRIBUTES,
   RegistrationRequestSentAction,
   RegistrationRequestSucceededAction,
   RegistrationRequestFailedAction,
@@ -116,6 +117,13 @@ export const setHasVerificationBeenAttempted = (
   type: SET_HAS_VERIFICATION_BEEN_ATTEMPTED,
   payload: {
     hasVerificationBeenAttempted,
+  },
+})
+
+export const setAttributesSent = (attributes: { [key: string]: any }) => ({
+  type: SET_ATTRIBUTES,
+  payload: {
+    attributes,
   },
 })
 
@@ -342,6 +350,10 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
     }
   }
 
+  const setAttributes = (attributes: { [key: string]: any }) => (dispatch: Dispatch<{}>) => {
+    dispatch(setAttributesSent(attributes))
+  }
+
   return {
     registerUser,
     updateUser,
@@ -352,6 +364,7 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
     signOutUser,
     verifyCredentials,
     axiauth,
+    setAttributes,
   }
 }
 

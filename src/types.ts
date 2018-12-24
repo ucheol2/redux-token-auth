@@ -83,6 +83,9 @@ export const SIGNOUT_REQUEST_FAILED: SIGNOUT_REQUEST_FAILED = 'redux-token-auth/
 export type SET_HAS_VERIFICATION_BEEN_ATTEMPTED = 'redux-token-auth/SET_HAS_VERIFICATION_BEEN_ATTEMPTED'
 export const SET_HAS_VERIFICATION_BEEN_ATTEMPTED: SET_HAS_VERIFICATION_BEEN_ATTEMPTED = 'redux-token-auth/SET_HAS_VERIFICATION_BEEN_ATTEMPTED'
 
+export type SET_ATTRIBUTES = 'redux-token-auth/SET_ATTRIBUTES'
+export const SET_ATTRIBUTES: SET_ATTRIBUTES = 'redux-token-auth/SET_ATTRIBUTES'
+
 export interface UserRegistrationDetails {
   readonly email: string
   readonly password: string
@@ -165,6 +168,13 @@ export interface SetHasVerificationBeenAttemptedAction {
   }
 }
 
+export interface SetAttributes {
+  readonly type: SET_ATTRIBUTES
+  readonly payload: {
+    readonly attributes: { [key: string]: any }
+  }
+}
+
 export type ReduxAction = RegistrationRequestSentAction
   | RegistrationRequestSucceededAction
   | RegistrationRequestFailedAction
@@ -178,6 +188,7 @@ export type ReduxAction = RegistrationRequestSentAction
   | SignOutRequestSucceededAction
   | SignOutRequestFailedAction
   | SetHasVerificationBeenAttemptedAction
+  | SetAttributes
 
 export type ReduxAsyncAction = (input?: any) => (dispatch: Dispatch<{}>) => Promise<void>
 
@@ -193,6 +204,7 @@ export interface ActionsExport {
   readonly updateUserForm: ReduxAsyncAction
   readonly verifyCredentials: VerifyCredentialsFunction
   readonly axiauth: (input?: any) => Promise<any>
+  readonly setAttributes: (input?: any) => void
 }
 
 export type ActionsGeneratorExport = (config: { [key: string]: any }) => ActionsExport
