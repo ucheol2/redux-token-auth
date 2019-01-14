@@ -205,6 +205,7 @@ export interface ActionsExport {
   readonly verifyCredentials: VerifyCredentialsFunction
   readonly axiauth: (input?: any) => Promise<any>
   readonly setAttributes: (input?: any) => void
+  readonly customSignIn: (data: any, path: string) => (dispatch: Dispatch<{}>) => Promise<void>
 }
 
 export type ActionsGeneratorExport = (config: { [key: string]: any }) => ActionsExport

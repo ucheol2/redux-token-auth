@@ -321,6 +321,24 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
     }
   }
 
+  const customSignIn = ( data: any, path: string ) => async function (dispatch: Dispatch<{}>): Promise<void> {
+    dispatch(signInRequestSent())
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: `${authUrl}${path}`,
+        data: data,
+      })
+      setAuthHeaders(response.headers)
+      persistAuthHeadersInDeviceStorage(Storage, response.headers)
+      const userAttributesToSave = getUserAttributesFromResponse(userAttributes, response)
+      dispatch(signInRequestSucceeded(userAttributesToSave))
+    } catch (error) {
+      dispatch(signInRequestFailed())
+      throw error
+    }
+  }
+
   const axiauth = async ({headers = {}, ...options}): Promise<any> => {
     const tokenHeaders: AuthHeaders = {
       'access-token': await Storage.getItem('access-token') as string,
@@ -365,6 +383,7 @@ const generateAuthActions = (config: { [key: string]: any }): ActionsExport => {
     verifyCredentials,
     axiauth,
     setAttributes,
+    customSignIn
   }
 }
 

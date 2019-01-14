@@ -405,8 +405,39 @@ var generateAuthActions = function (config) {
             }
         });
     }); };
+    var customSignIn = function (data, path) { return function (dispatch) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, userAttributesToSave, error_8;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        dispatch(exports.signInRequestSent());
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, axios_1.default({
+                                method: 'POST',
+                                url: "" + authUrl + path,
+                                data: data,
+                            })];
+                    case 2:
+                        response = _a.sent();
+                        auth_1.setAuthHeaders(response.headers);
+                        auth_1.persistAuthHeadersInDeviceStorage(Storage, response.headers);
+                        userAttributesToSave = auth_1.getUserAttributesFromResponse(userAttributes, response);
+                        dispatch(exports.signInRequestSucceeded(userAttributesToSave));
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_8 = _a.sent();
+                        dispatch(exports.signInRequestFailed());
+                        throw error_8;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    }; };
     var axiauth = function (_a) { return __awaiter(_this, void 0, void 0, function () {
-        var tokenHeaders, _b, _c, _d, response, error_8;
+        var tokenHeaders, _b, _c, _d, response, error_9;
         var _e = _a.headers, headers = _e === void 0 ? {} : _e, options = __rest(_a, ["headers"]);
         return __generator(this, function (_f) {
             switch (_f.label) {
@@ -440,13 +471,13 @@ var generateAuthActions = function (config) {
                     auth_1.persistAuthHeadersInDeviceStorage(Storage, response.headers);
                     return [2 /*return*/, response];
                 case 8:
-                    error_8 = _f.sent();
-                    console.warn(error_8, error_8.response);
-                    if (!!error_8.response && error_8.response.status !== 401) {
-                        auth_1.setAuthHeaders(error_8.response.headers);
-                        auth_1.persistAuthHeadersInDeviceStorage(Storage, error_8.response.headers);
+                    error_9 = _f.sent();
+                    console.warn(error_9, error_9.response);
+                    if (!!error_9.response && error_9.response.status !== 401) {
+                        auth_1.setAuthHeaders(error_9.response.headers);
+                        auth_1.persistAuthHeadersInDeviceStorage(Storage, error_9.response.headers);
                     }
-                    throw error_8;
+                    throw error_9;
                 case 9: return [2 /*return*/];
             }
         });
@@ -465,6 +496,7 @@ var generateAuthActions = function (config) {
         verifyCredentials: verifyCredentials,
         axiauth: axiauth,
         setAttributes: setAttributes,
+        customSignIn: customSignIn
     };
 };
 exports.default = generateAuthActions;
